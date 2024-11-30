@@ -81,9 +81,9 @@ def upload():
     for line in lines:
         if 'severity' in line:
             if 'severity="Critical"' in line:
-                writeunid = 1   
+                writeunid = 1
             else:
-                writeunid =0         
+                writeunid =0
         if "<unid>" in line and writeunid==1:
             unid= str(line).strip()
             i_list.append(unid)
@@ -169,4 +169,4 @@ def rain():
 
 #RUN THE WEBAPP
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001, debug=True)
+    app.run(host="0.0.0.0", port=5001, debug=False)

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Medusa Codes{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="content">
+  <h1 class="heading">Medusa Codes</h1>
+  <p class="description">This site shares my results from some starter projects.</p>
+
+  <h2 class="subheading"><a href="/log">Log File Processor</a> </h2>
+  <p>I've recently been spending far too much time parsing log files. If this resonates with you, try this little tool. Caveat: For now, this only works for very specific instance of log file I'm currently using on a project.</p>
+
+  <h2 class="subheading"><a href="/rain">Umbrella App</a> </h2>
+  <p>Heading out? Wondering if you should bring an umbrella? This app will keep you dry.</p>
+  <p><a href="https://www.visualcrossing.com/weather-api">Virtual crossing</a> weather API provides the chance of rain. <a href="https://www.twillio.com">Twilio</a> sends an SMS message letting you know whether you need an umbrella. The styling by <a href="">tailwindcss</a> and the background image by <a href="https://chatgpt.com/">ChatGPT 4o</a> make this site look great whether your using a computer or your phone.
+  <p>This Python Flask app is an enhanced version of the rain tracker project in Angela Yu's <a href="https://www.udemy.com/course/100-days-of-code/?couponCode=OF83024F">100 Days of Code: The Complete Python Pro Bootcamp</a>. The original project was a scheduled task on pythonanywhere. It send daily updates to one phone number regarding one location with no web front end. </p>
+
+  <h2 class="subheading"><a href="/js_jokes">Dad Jokes</a> </h2>
+  <p>This is a project from
+    <a href="https://www.oreilly.com/library/view/50-projects-in/9781801079976/?_gl=1*xbqgu4*_ga*MTk5NDY2Mzc4OC4xNzI1MDU1MDE2*_ga_092EL089CH*MTcyNTA1NTAxNi4xLjEuMTcyNTA1NTAzMC40Ni4wLjA.">50 Projects in 50 Days - HTML, CSS, and JavaScript by Brad Traversy, Florin Pop</a>.</p>
+
+  <p>I'm still early in my journey to learn css and JavaScript.  The css and js  here is taken directly from the step by step project instructions.</p>
+  <p>To publish this on the web, I used my mad Python skills to create a Flask app.  For practice, I rewrote the JavaScript portion using the Requests module. In this version of <a href="/flask_jokes">Dad Jokes v2</a> the page reloads each time you request a new joke. </p>
+  <p>A special thanks to Angela Yu's teaching in
+   <a href="https://www.udemy.com/course/100-days-of-code/?couponCode=OF83024F">100 Days of Code: The Complete Python Pro Bootcamp</a>, which enabled me to develop my Python skills.
+  </p>
+
+  <h2 class="subheading">More Projects Coming Soon</h2>
+  <p>I plan to make additional projects available here regularly.</p>
+  <h2 class="subheading">More About Me</h2>
+  <p>Find me on <a href="https://github.com/lmcole27">Github</a> and <a href="https://www.linkedin.com/in/linda-cole-msc-pmp-69259a54/">LinkedIn</a>.</p>
+
+</div>
+</div>
+<script src="{{ url_for('static', filename='jokes_script.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Medusa Codes{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="content">
+
+    <body>
+        <h1>Log Processor</h1>
+        <h2>Log Output</h2>
+    <p>Total UNID = {{ count }}</p>
+    {% for item in DATA %}
+    {{ item[6:38] }}<br>
+    {% endfor %}
+    <br><br>
+        <form action="/log">
+            <input type="submit" class="modern-button" value="Process More Logs">
+        </form>
+    <br><br>
+        <form action="/">
+            <input type="submit" class="modern-button" value="Take Me Home">
+        </form>
+
+    </body>
+
+</div>
+</div>
+
+{% endblock %}

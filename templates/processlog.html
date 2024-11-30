@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Medusa Codes{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="content">
+
+    <body>
+        <h1>Log Processor</h1>
+        <h2>Upload Log File</h2>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+        <!-- Hidden file input -->
+        <input type="file" id="fileInput" name="file" class="custom-file-input">
+
+        <!-- Custom label acting as a button -->
+        <label for="fileInput" class="custom-file-label">Choose File</label>
+
+        <!-- Span to display selected file name -->
+        <span class="file-name" id="fileName">No file chosen</span>
+            <button type="submit" class="modern-button">Upload</button>
+        </form>
+
+    <script src="{{ url_for('static', filename='logfile.js') }}"></script>
+
+    </body>
+</div>
+</div>
+{% endblock %}

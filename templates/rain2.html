@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content=""width=device-width, initial-scale="1.0">
+    <link rel="stylesheet" href="../static/rain.css">
+</head>
+
+<div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12">
+    <img src="../static/umbrella.jpg" alt="" class="absolute top-1/2 left-1/2 max-w-none -translate-x-1/2 -translate-y-1/2" width="1308" />
+    <div class="absolute inset-0 bg-[url(/img/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
+    <div class="relative bg-white bg-opacity-70 px-6 pt-6 pb-6 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
+        <body>
+
+        <div class="container mx-auto px-12 pt-12 pb-10">
+            <div class="bg" src="../static/umbrella.jpg"></div>
+            <h1 class="text-5xl font-medium pb-12">Should I Bring an Umbrella?</h1>
+
+
+            <div class="border-b border-gray-900/10 pb-10">
+            <h2 class="text-xl font-semibold leading-7 text-yellow-900">The weather can be unpredictable. 
+            <br>Don't get caught in the rain.</h2>
+
+            <div class="text-red-600 text-xl font-semibold pt-6">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+            </div>
+
+            <form action="rain" method="post">
+            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="sm:col-span-4">
+
+                    <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
+                    <div class="mt-2">        
+                    {{ form.city(placeholder="Nairobi", class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-yellow-600 hover:bg-gray-100 sm:max-w-md") }}
+                    </div>
+
+                    <label for="country" class="block text-sm font-medium leading-6 text-gray-900 pt-6">Country</label>
+                    <div class="mt-2">
+                    {{ form.country(placeholder="Kenya", class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-yellow-600 hover:bg-gray-100 sm:max-w-md") }}
+                    </div>
+
+                    <label for="telephone" class="block text-sm font-medium leading-6 text-gray-900 pt-6">Telephone Number</label>
+                    <div class="mt-2">
+                    {{ form.phone_no(placeholder="123-456-7890", class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-yellow-600 hover:bg-gray-100 sm:max-w-md") }}
+                    </div>
+
+                    <div class="mt-2 pt-6">
+                    {{ form.submit(class="rounded-md bg-yellow-95 px-2.5 py-1.5 text-lg font-semibold text-gray-900  shadow-sm ring-1 ring-inset ring-gray-600 over:bg-gray-100") }}
+                    
+                    </div>
+
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    </body>
+</div>
+</div>
+</html>

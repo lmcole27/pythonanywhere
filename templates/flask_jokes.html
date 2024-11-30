@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='jokes_style.css') }}"/>
+
+
+    <title>Dad Jokes</title>
+</head>
+<body>
+    <div class="container">
+        <h3>Don't Laugh Challenge</h3>
+        <div id="joke" class="joke">{{ result }}</div>
+        <a href="/flask_jokes" button id="jokeBtn" class="btn" style="text-decoration:none">Get Another Joke</a>
+    </div>
+
+</body>
+</html>

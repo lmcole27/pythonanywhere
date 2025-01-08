@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Medusa Codes{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="content">
+
+    <body>
+
+        <h1>File Download</h1>
+        <h2>Missing Item List</h2>
+        <a href="{{ url_for('download_file', filename='output.csv') }}">Download CSV Output</a>
+        <br><br>
+        <a href="{{ url_for('download_file', filename='output.txt') }}">Download Text Output</a>
+
+
+        <br><br><br>
+        <form action="/compare">
+            <input type="submit" class="modern-button" value="Compare More Lists">
+        </form>
+
+        <br>
+        <form action="/">
+            <input type="submit" class="modern-button" value="Take Me Home">
+        </form>
+
+    </body>
+    </div>
+</div>
+{% endblock %}
+
+
+
+

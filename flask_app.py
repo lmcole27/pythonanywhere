@@ -1,6 +1,6 @@
 import logging
 import sys
-from flask import Flask, render_template, url_for, request, redirect, flash
+from flask import Flask, render_template, url_for, request, redirect, flash, send_file
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TelField
 from wtforms.validators import DataRequired
@@ -8,6 +8,7 @@ from wtforms.validators import DataRequired
 from twilio.rest import Client
 import requests
 import os
+import csv
 from dotenv import load_dotenv
 
 
@@ -93,6 +94,112 @@ def upload():
         count += 1
 
     return render_template("processlog_output.html", DATA=i_list, count=count)
+
+#LOG FILE PROCESSOR HOMEPAGE
+@app.route('/compare', methods=['GET', 'POST'])
+def comparefiles():
+    return render_template("compare.html")
+
+#LOG FILE PROCESSOR OUTPUT
+@app.route('/uploadfiles', methods=['POST'])
+def uploadfiles():
+    # Check if a file was uploaded
+    if 'file1' not in request.files:
+        return render_template("compare.html")
+    elif 'file2' not in request.files:
+        return render_template("compare.html")
+
+    primaryfile = request.files['file1']
+    secondaryfile = request.files['file2']
+
+    # Check if the file has a valid name
+    if primaryfile.filename == '':
+        return render_template("compare.html")
+    elif secondaryfile.filename == '':
+        return render_template("compare.html")
+
+    # Read file content directly
+    primaryfile_content = primaryfile.read().decode('utf-8')  # Assuming the file is a text file
+    secondaryfile_content = secondaryfile.read().decode('utf-8')
+    primelines=primaryfile_content.splitlines()
+    secondlines=secondaryfile_content.splitlines()
+
+    # Initialize an empty list to store the rows
+    primelist = []
+    secondlist = []
+    uniqueitemlist = []
+    missingitemlist = []
+    duplicateitemlist = []
+    extraitemlist = []
+
+    # Initialize a count variable
+    primecount = 0
+    secondcount = 0
+    blanks = 0
+    duplicates = 0
+    missingcount = 0
+    blanks2 = 0
+    #duplicates2 = 0
+    extracount = 0
+
+    for row in primelines:
+        # Append the row to the list
+        primelist.append(row)
+        primecount +=1
+
+    for row in secondlines:
+        # Append the row to the list
+        secondlist.append(row)
+        secondcount +=1
+
+
+    for item in primelist:
+        if item == '':
+            blanks += 1
+        elif item in secondlist:
+            if item in uniqueitemlist:
+                duplicateitemlist.append(item)
+                duplicates+=1
+            else:
+                uniqueitemlist.append(item)
+        else:
+            missingitemlist.append(item)
+            missingcount+=1
+
+    for item in secondlist:
+        if item == '':
+            blanks2 += 1
+        elif item not in primelist:
+            extraitemlist.append(item)
+            extracount += 1
+
+    # Save to a CSV file
+    with open("mysite/output.csv", mode="w", newline="") as csvoutputfile:
+        writer = csv.writer(csvoutputfile)
+        #for row in missingitemlist:
+        writer.writerow(missingitemlist)  # Write each item as a single-row list
+
+    with open('mysite/output.txt', 'w') as txtoutputfile:  # Use 'a' to append, 'w' to overwrite
+        for row in missingitemlist:
+            txtoutputfile.write(row + '\n')
+
+    return render_template("compare_output.html", missingitemlist=missingitemlist, primecount=primecount, secondcount=secondcount, blanks=blanks, duplicates=duplicates, missingcount=missingcount, blanks2=blanks2, extracount=extracount, extraitemlist=extraitemlist)
+
+@app.route('/downloads')
+def download():
+    return render_template('downloads.html')
+
+@app.route('/download/<filename>')
+def download_file(filename):
+    file_path = filename
+
+    try:
+        # Serve the file for download
+        return send_file(file_path, as_attachment=True)
+    except Exception as e:
+        return f"Error: {str(e)}", 404
+
+
 #FLASK DAD JOKES
 @app.route('/flask_jokes', methods=['GET', 'POST'])
 def flask_jokes():

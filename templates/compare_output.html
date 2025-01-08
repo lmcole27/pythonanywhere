@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Medusa Codes{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="content">
+
+    <body>
+    <h1>List Comparison</h1>
+
+    <h2>Comparison Output</h2>
+    
+    <br>
+    <h3>Primary List</h3>
+    <p>Items = {{ primecount }}</p>
+    <p>Blanks = {{ blanks }}</p>
+    <p>Duplicates = {{ duplicates }}</p>
+    
+    <br>
+    <h3>Secondary List</h3>
+    <p>Items = {{ secondcount }}</p>
+    <p>Blanks = {{ blanks2 }}</p>
+    <p>Missing items = {{ missingcount }}</p>
+    <p>Extra items = {{ extracount }}</p>
+
+    <br>
+    <h3>Missing Item List</h3>
+    {% for item in missingitemlist %}
+    {{ item }}<br>
+    {% endfor %}
+    <br>
+
+    <h3>Extra Item List</h3>
+    {% for item in extraitemlist %}
+    {{ item }}<br>
+    {% endfor %}
+
+        
+    <br><br>
+    <form action="/downloads">
+        <input type="submit" class="modern-button" value="Download list">
+    </form>
+
+    <br><br>
+    <form action="/compare">
+        <input type="submit" class="modern-button" value="Compare More Lists">
+    </form>
+
+    <br><br>
+    <form action="/">
+        <input type="submit" class="modern-button" value="Take Me Home">
+    </form>
+
+    </body>
+
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Medusa Codes{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="content">
+
+    <body>
+        <h1>List Comparison</h1>
+
+        <h2>Upload Lists</h2>
+        <form action="/uploadfiles" method="post" enctype="multipart/form-data">
+
+        <!-- Hidden file input 1 -->
+        <input type="file" id="fileInput1" name="file1" class="custom-file-input">
+
+        <!-- Custom label acting as a button 1 -->
+        <label for="fileInput1" class="custom-file-label">Choose Primary List</label>
+
+        <!-- Span to display selected file name 1 -->
+        <span class="file-name1" id="fileName1">No file chosen</span>
+
+        <br>
+
+        <!-- Hidden file input 2  -->
+        <input type="file" id="fileInput2" name="file2" class="custom-file-input">
+
+        <!-- Custom label acting as a button 2 -->
+        <label for="fileInput2" class="custom-file-label">Choose Secondary List</label>
+
+        <!-- Span to display selected file name 2 -->
+        <span class="file-name2" id="fileName2">No file chosen</span>
+
+        <br><br>
+
+        <button type="submit" class="modern-button" style="background-color: #008080;">Upload Files</button>
+
+
+
+
+        </form>
+    </body>
+    <script src="{{ url_for('static', filename='compare.js') }}"></script>
+</div>
+</div>
+{% endblock %}

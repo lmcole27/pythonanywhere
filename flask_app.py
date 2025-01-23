@@ -124,66 +124,61 @@ def uploadfiles():
     primelines=primaryfile_content.splitlines()
     secondlines=secondaryfile_content.splitlines()
 
-    # Initialize an empty list to store the rows
-    primelist = []
-    secondlist = []
-    uniqueitemlist = []
-    missingitemlist = []
-    duplicateitemlist = []
-    extraitemlist = []
+        # Initialize an empty set to store the rows
+    primeset = set()
+    secondset = set()
+    missingitemset = set()
+    extraitemset = set()
 
-    # Initialize a count variable
+    # Initialize count variables
     primecount = 0
     secondcount = 0
     blanks = 0
-    duplicates = 0
     missingcount = 0
     blanks2 = 0
-    #duplicates2 = 0
+    duplicates2 = 0
     extracount = 0
 
+    # Append the row to the list
     for row in primelines:
-        # Append the row to the list
-        primelist.append(row)
-        primecount +=1
+        if row == "":
+            blanks += 1
+        else:
+            primeset.add(row)
+
+    primecount = len(primelines)
+    duplicates = int(primecount) - int(len(primeset)) - int(blanks)
 
     for row in secondlines:
-        # Append the row to the list
-        secondlist.append(row)
-        secondcount +=1
-
-
-    for item in primelist:
-        if item == '':
-            blanks += 1
-        elif item in secondlist:
-            if item in uniqueitemlist:
-                duplicateitemlist.append(item)
-                duplicates+=1
-            else:
-                uniqueitemlist.append(item)
+        if row == "":
+            blanks2 += 1
         else:
-            missingitemlist.append(item)
+            secondset.add(row)
+
+    secondcount = len(secondlines)
+    duplicates2 = int(secondcount) - int(len(secondset)) - int(blanks2)
+
+    for item in primeset:
+        if item not in secondset:
+            missingitemset.add(item)
             missingcount+=1
 
-    for item in secondlist:
-        if item == '':
-            blanks2 += 1
-        elif item not in primelist:
-            extraitemlist.append(item)
+    for item in secondset:
+        if item not in primeset:
+            extraitemset.add(item)
             extracount += 1
 
     # Save to a CSV file
-    with open("mysite/output.csv", mode="w", newline="") as csvoutputfile:
+    with open("output.csv", mode="w", newline="") as csvoutputfile:
         writer = csv.writer(csvoutputfile)
-        #for row in missingitemlist:
-        writer.writerow(missingitemlist)  # Write each item as a single-row list
+        writer.writerow(missingitemset)  # Write each item as a single-row list
 
-    with open('mysite/output.txt', 'w') as txtoutputfile:  # Use 'a' to append, 'w' to overwrite
-        for row in missingitemlist:
+    with open('output.txt', 'w') as txtoutputfile:  # Use 'a' to append, 'w' to overwrite
+        for row in missingitemset:
             txtoutputfile.write(row + '\n')
 
-    return render_template("compare_output.html", missingitemlist=missingitemlist, primecount=primecount, secondcount=secondcount, blanks=blanks, duplicates=duplicates, missingcount=missingcount, blanks2=blanks2, extracount=extracount, extraitemlist=extraitemlist)
+    return render_template("compare_output.html", missingitemlist=missingitemset, primecount=primecount, secondcount=secondcount, blanks=blanks, duplicates=duplicates, missingcount=missingcount, blanks2=blanks2, extracount=extracount, extraitemlist=extraitemset, duplicates2=duplicates2)
+
 
 @app.route('/downloads')
 def download():

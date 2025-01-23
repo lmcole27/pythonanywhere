@@ -10,17 +10,18 @@
     <h1>List Comparison</h1>
 
     <h2>Comparison Output</h2>
-    
+
     <br>
     <h3>Primary List</h3>
     <p>Items = {{ primecount }}</p>
     <p>Blanks = {{ blanks }}</p>
     <p>Duplicates = {{ duplicates }}</p>
-    
+
     <br>
     <h3>Secondary List</h3>
     <p>Items = {{ secondcount }}</p>
     <p>Blanks = {{ blanks2 }}</p>
+    <p>Duplicates = {{ duplicates2 }}</p>
     <p>Missing items = {{ missingcount }}</p>
     <p>Extra items = {{ extracount }}</p>
 
@@ -36,7 +37,7 @@
     {{ item }}<br>
     {% endfor %}
 
-        
+
     <br><br>
     <form action="/downloads">
         <input type="submit" class="modern-button" value="Download list">

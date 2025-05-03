@@ -1,12 +1,20 @@
 import logging
 import sys
-from flask import Flask, render_template, url_for, request, redirect, flash, send_file
+from flask import Flask, render_template, url_for, request, redirect, flash, send_file, Response, stream_with_context, jsonify, session
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TelField
 from wtforms.validators import DataRequired
 #from flask_wtf.csrf import CSRFProtect
 from twilio.rest import Client
 import requests
+from openai import OpenAI
+from flask_cors import CORS
+import json
+from assistantFunctions import load_chat, add_message, save_chat, history_cleanup
+#from api import guest
+import uuid
+import atexit
+from apscheduler.schedulers.background import BackgroundScheduler
 import os
 import csv
 from dotenv import load_dotenv
@@ -21,9 +29,6 @@ load_dotenv()
 project_folder = os.path.expanduser('~/mysite')
 load_dotenv(os.path.join(project_folder, '.env'))
 
-#RAIN TRACKER SECRET KEY FOR FLASK WTF
-secret_key = os.environ.get('SECRET_KEY')
-#csrf_secret_key = os.environ.get('CSFR_KEY')
 
 #RAIN TRACKER SECRET ENDPOINT INFORMTION - WEATHER & TWILIO
 ACCOUNT_SID = os.environ.get('ACCOUNT_SID')
@@ -31,14 +36,17 @@ AUTH_TOKEN = os.environ.get('AUTH_TOKEN')
 wds_auth = os.environ.get('WDS_AUTH')
 from_tel = os.environ.get('from_tel')
 
-#CREATE TWILIO CLIENT
-client = Client(ACCOUNT_SID, AUTH_TOKEN)
+#CREATE API CLIENTS
+twilioClient = Client(ACCOUNT_SID, AUTH_TOKEN)
+openaiClient = OpenAI(api_key=os.environ['OPENAI_API_KEY'], organization=os.environ['ORGANIZATION'], project=os.environ['PROJECT'])
 
 #CREATE WEBAPP
 app = Flask(__name__)
-app.config['SECRET_KEY'] = secret_key
-#app.config['WTF_CSRF_SECRET_KEY']= csrf_secret_key
-#csrf = CSRFProtect(app)
+CORS(app, supports_credentials=True) 
+app.secret_key = os.environ['FLASK_SECRET_KEY']
+app.config['SESSION_COOKIE_SECURE'] = False  # Set to True in production
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
 #RAIN TRACKER INPUT FORM
 class rainForm(FlaskForm):
@@ -47,6 +55,22 @@ class rainForm(FlaskForm):
     phone_no = TelField('Phone Number', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+#OPENAI CLIENT FUNCTION
+def generate_response(question: str, chat_history):
+    # Send API request to ChatGPT and recieve resonse
+    response = openaiClient.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": question}, 
+                  {"role": "system", "content": f"consider the conversation context {chat_history}"},
+                  {"role": "system", "content":"provide response with HTML tags but no header."
+                   }],
+        stream=True,
+    )
+
+    for chunk in response:
+        if chunk.choices[0].delta.content is not None:
+            ans = chunk.choices[0].delta.content
+            yield ans
 
 #WEB HOME PAGE
 @app.route('/', methods=['GET', 'POST'])
@@ -244,7 +268,7 @@ def rain():
 
             try:
                 #SEND THE NOTIFICATION TO YOUR DEVICE USING TWILIO
-                message = client.messages \
+                message = twilioClient.messages \
                                 .create(
                                         body=content,
                                         from_=from_tel,
@@ -268,6 +292,91 @@ def rain():
 
     return render_template("rain.html", form=form)
 
+# ASSISTANT CODE
+   
+@app.route('/assistant', methods=['GET', 'POST'])
+def index():
+    return render_template('assistant.html')
+
+@app.route('/assistantAPI/set_session', methods=['GET','POST'])
+def set_session():
+    token = uuid.uuid4()  # unique guest ID
+    token_str = str(token)
+    session['token'] = token_str  # Store the token in session
+    return jsonify(success=True, token=token_str)
+
+@app.route('/assistantAPI/get_session', methods=['GET', 'POST'])
+def get_session():
+    id = session.get('token', None)
+    sesh = session.get('session', None)
+    print("id = ", id, "sesh = ", sesh)
+    if id is None:
+        return jsonify({"error": "No session found"}), 404
+    return jsonify(success=True, token=id)
+
+@app.route('/generate', methods=['POST'])
+def generate():
+    question = request.form.get('question')
+    if not question:
+        return "Please provide a question", 400
+    
+    # Get session token
+    session_token = session.get('token')
+    if not session_token:
+        return "Session token not found", 400
+
+    # Load chat history for the user
+    chat_history = load_chat(session_token)
+
+    # Save question to chat_history
+    add_message(chat_history, "user", question)
+    save_chat(chat_history, session_token)
+
+    def generate():
+        for chunk in generate_response(question, chat_history):
+            yield chunk
+
+    return Response(stream_with_context(generate()), mimetype='text/plain')
+
+
+@app.route('/assistantAPI/response', methods=['POST'])
+def receive_post():
+    try:
+        # Get JSON data from the request
+        data = request.get_json()
+        response = data["message"]
+
+        # Get session token
+        session_token = session.get('token')
+        if not session_token:
+            return jsonify({"error": "Session token not found"}), 400
+
+        # Load chat history for the user
+        chat_history = load_chat(session_token)
+
+        # Save response to chat_history
+        add_message(chat_history, "assistant", response)
+        save_chat(chat_history, session_token)
+
+        # Respond back to client
+        return jsonify({"message": "Data received successfully", "received": data}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
+# Schedule job
+scheduler = BackgroundScheduler(daemon=True)
+scheduler.add_job(
+    func=history_cleanup, 
+    trigger="interval", 
+    days=7, 
+    id='history_cleanup', 
+    replace_existing=True
+)
+scheduler.start()
+
+# Shut down the scheduler when exiting the app
+atexit.register(lambda: scheduler.shutdown())
 
 #RUN THE WEBAPP
 if __name__ == "__main__":

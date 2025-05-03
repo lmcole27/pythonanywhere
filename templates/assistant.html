@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='/favicon.ico') }}"/>
+    <link rel="stylesheet" href="/static/assistant_style.css">
+    <title>Medusa Codes - Chatbot</title>
+</head>
+  
+<body>
+    <!-- Popup Modal-->
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">
+            <p>Welcome! Please continue as a guest.</p>
+
+            <!-- Login function to be added 
+            <button onclick="closePopup()">Login</button> -->
+            <button onclick="setGuestToken()">Continue as Guest</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <div class="page-content" id="main-content">
+                
+                <h1>Personal Assistant</h1>
+                <div id="output"></div>
+                <h2>Ask me a question</h2>
+
+                <form id="question-form">
+                    <input type="text" id="question" name="question" placeholder="Enter your question" class="large-input" required>
+                    <button type="submit" class="modern-button">Submit</button>
+                </form>
+                <h2 id="questionAskedHeader">You Asked</h2>
+                <div id="questionAsked"></div>
+                <h2 id="responseHeader">Response</h2>
+                <div id="response" class="response"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/assistant_script.js"></script>
+</body>
+</html>

@@ -6,28 +6,29 @@
 <div class="container">
   <div class="content">
   <h1 class="heading">Medusa Codes</h1>
-  <p class="description">This site shares my results from some starter projects.</p>
+  <p class="description">This site is a place for me to share some projects.</p>
+
+  <h2 class="subheading"><a href="/assistant">Personal Assistant</a> </h2>
+  <p>This is a simple assistant built using OpenAI gpt-4o-mini model. It is a single page app with JavaScript frontend that calls API endpoints in the Python Flask backend. It uses Flask sessions to maintain conversation history, and has a function to clean up stale sessions.</p>
+  <p>Coming Soon: I am working on a specialized assistant. That model needs additional tuning so that the embeddings will enable the retrieval of the most relevant information from ChromaDB.</p>
 
   <h2 class="subheading"><a href="/log">Log File Processor</a> </h2>
-  <p>I've recently been spending far too much time parsing log files. If this resonates with you, try this little tool. Caveat: For now, this only works for very specific instance of log file I'm currently using on a project.</p>
-
-  <h2 class="subheading"><a href="/compare">List Comparison</a> </h2>
-  <p>This project was inspired by data migration work.  I built this tool to compare a primary or source file that lists unique identifiers with a secondary or destination file listing unique identifiers. I recently made a few improvements to significantly reduce the processing time for very large files.</p>
+  <p>In my current role, I've been hands on in cloud migration work.  I've added these tools here to share with my teammates.  The <a href="/log">Log File Processor</a> tool works for a specific log file that doesn't contain any confidential data.</p>
+  <p>The <a href="/compare">List Comparison</a> tool is used to compare a primary or source file that lists unique identifiers with a secondary or destination file listing unique identifiers. I made a few improvements to reduce the processing time for very large files.</p>
 
   <h2 class="subheading"><a href="/rain">Umbrella App</a> </h2>
   <p>Heading out? Wondering if you should bring an umbrella? This app will keep you dry.</p>
-  <p><a href="https://www.visualcrossing.com/weather-api">Virtual crossing</a> weather API provides the chance of rain. <a href="https://www.twillio.com">Twilio</a> sends an SMS message letting you know whether you need an umbrella. The styling by <a href="">tailwindcss</a> and the background image by <a href="https://chatgpt.com/">ChatGPT 4o</a> make this site look great whether your using a computer or your phone.
-  <p>This Python Flask app is an enhanced version of the rain tracker project in Angela Yu's <a href="https://www.udemy.com/course/100-days-of-code/?couponCode=OF83024F">100 Days of Code: The Complete Python Pro Bootcamp</a>. The original project was a scheduled task on pythonanywhere. It send daily updates to one phone number regarding one location with no web front end. </p>
+  <p>I used <a href="https://www.visualcrossing.com/weather-api">Virtual crossing</a> weather API to retrieve the chance of rain, and 
+    <a href="https://www.twillio.com">Twilio</a> API to send the SMS message that lets you know whether you need an umbrella. 
+    The background image is by <a href="https://chatgpt.com/">ChatGPT 4o</a>.
+    I struggled a bit using <a href="">tailwindcss</a> and plan to come back and improve the look of the site.</p>  
+  <p>This Python Flask app is an adaptation of the rain tracker project in Angela Yu's <a href="https://www.udemy.com/course/100-days-of-code/?couponCode=OF83024F">100 Days of Code: The Complete Python Pro Bootcamp</a>.</p>
 
   <h2 class="subheading"><a href="/js_jokes">Dad Jokes</a> </h2>
-  <p>This is a project from
-    <a href="https://www.oreilly.com/library/view/50-projects-in/9781801079976/?_gl=1*xbqgu4*_ga*MTk5NDY2Mzc4OC4xNzI1MDU1MDE2*_ga_092EL089CH*MTcyNTA1NTAxNi4xLjEuMTcyNTA1NTAzMC40Ni4wLjA.">50 Projects in 50 Days - HTML, CSS, and JavaScript by Brad Traversy, Florin Pop</a>.</p>
+  <p>This is a project from <a href="https://www.oreilly.com/library/view/50-projects-in/9781801079976/?_gl=1*xbqgu4*_ga*MTk5NDY2Mzc4OC4xNzI1MDU1MDE2*_ga_092EL089CH*MTcyNTA1NTAxNi4xLjEuMTcyNTA1NTAzMC40Ni4wLjA.">50 Projects in 50 Days - HTML, CSS, and JavaScript by Brad Traversy, Florin Pop</a>.</p>
 
-  <p>I'm still early in my journey to learn css and JavaScript.  The css and js  here is taken directly from the step by step project instructions.</p>
-  <p>To publish this on the web, I used my mad Python skills to create a Flask app.  For practice, I rewrote the JavaScript portion using the Requests module. In this version of <a href="/flask_jokes">Dad Jokes v2</a> the page reloads each time you request a new joke. </p>
-  <p>A special thanks to Angela Yu's teaching in
-   <a href="https://www.udemy.com/course/100-days-of-code/?couponCode=OF83024F">100 Days of Code: The Complete Python Pro Bootcamp</a>, which enabled me to develop my Python skills.
-  </p>
+  <p>This project is part of my journey to learn css and JavaScript.</p>
+  <p>To publish this on the web, I used my mad Python skills to create a Flask app.  For practice, I rewrote the JavaScript portion using the requests module. In this version of <a href="/flask_jokes">Dad Jokes v2</a> the page reloads each time you request a new joke. </p>
 
   <h2 class="subheading">More Projects Coming Soon</h2>
   <p>I plan to make additional projects available here regularly.</p>

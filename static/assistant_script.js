@@ -19,14 +19,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
         let buffer = '';
-        
+
         while (true) {
             const { done, value } = await reader.read();
             if (done) break;
             buffer += decoder.decode(value);
             responseContainer.innerHTML = buffer;
         }
-        
+
         console.log(responseContainer.innerText);
 
         fetch('/assistantAPI/response', {
@@ -79,7 +79,7 @@ function closePopup() {
 };
 
 function showOutput(data) {
-    document.getElementById('output').textContent = 
+    document.getElementById('output').textContent =
       typeof data === 'string' ? data : JSON.stringify(data, null, 2);
   }
 
@@ -94,7 +94,7 @@ function setGuestToken() {
     .then(data => {
         if (data.success) {
             const token = data.token
-            showOutput(`Welcome Guest ${token}`);
+            showOutput(`Welcome Guest`);
             closePopup();
           } else {
               showPopup();

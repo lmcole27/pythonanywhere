@@ -9,18 +9,18 @@ from twilio.rest import Client
 import requests
 from openai import OpenAI
 from flask_cors import CORS
-import json
-from assistantFunctions import load_chat, add_message, save_chat, history_cleanup
+#import json
+from assistantFunctions import load_chat, add_message, save_chat #history_cleanup
 #from api import guest
 import uuid
-import atexit
-from apscheduler.schedulers.background import BackgroundScheduler
+#import atexit
+# from apscheduler.schedulers.background import BackgroundScheduler #This is not allowed in pythonanywhere... need to find another method.
 import os
 import csv
 from dotenv import load_dotenv
 
 
-#REQUIRED FOR LOGGING IN PYTHON ANYWHERE
+#REQUIRED FOR LOGGING IN PYTHONANYWHERE
 logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 
 load_dotenv()
@@ -42,9 +42,9 @@ openaiClient = OpenAI(api_key=os.environ['OPENAI_API_KEY'], organization=os.envi
 
 #CREATE WEBAPP
 app = Flask(__name__)
-CORS(app, supports_credentials=True) 
+CORS(app, supports_credentials=True)
 app.secret_key = os.environ['FLASK_SECRET_KEY']
-app.config['SESSION_COOKIE_SECURE'] = False  # Set to True in production
+app.config['SESSION_COOKIE_SECURE'] = True  # Set to True in production
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
@@ -60,7 +60,7 @@ def generate_response(question: str, chat_history):
     # Send API request to ChatGPT and recieve resonse
     response = openaiClient.chat.completions.create(
         model="gpt-4o-mini",
-        messages=[{"role": "user", "content": question}, 
+        messages=[{"role": "user", "content": question},
                   {"role": "system", "content": f"consider the conversation context {chat_history}"},
                   {"role": "system", "content":"provide response with HTML tags but no header."
                    }],
@@ -195,9 +195,9 @@ def uploadfiles():
     # Save to a CSV file
     with open("output.csv", mode="w", newline="") as csvoutputfile:
         writer = csv.writer(csvoutputfile)
-        writer.writerow(missingitemset)  # Write each item as a single-row list
+        writer.writerow(missingitemset)
 
-    with open('output.txt', 'w') as txtoutputfile:  # Use 'a' to append, 'w' to overwrite
+    with open('output.txt', 'w') as txtoutputfile:
         for row in missingitemset:
             txtoutputfile.write(row + '\n')
 
@@ -293,7 +293,7 @@ def rain():
     return render_template("rain.html", form=form)
 
 # ASSISTANT CODE
-   
+
 @app.route('/assistant', methods=['GET', 'POST'])
 def index():
     return render_template('assistant.html')
@@ -319,7 +319,7 @@ def generate():
     question = request.form.get('question')
     if not question:
         return "Please provide a question", 400
-    
+
     # Get session token
     session_token = session.get('token')
     if not session_token:
@@ -364,19 +364,19 @@ def receive_post():
         return jsonify({"error": str(e)}), 400
 
 
-# Schedule job
-scheduler = BackgroundScheduler(daemon=True)
-scheduler.add_job(
-    func=history_cleanup, 
-    trigger="interval", 
-    days=7, 
-    id='history_cleanup', 
-    replace_existing=True
-)
-scheduler.start()
+# # Schedule job
+# scheduler = BackgroundScheduler(daemon=True)
+# scheduler.add_job(
+#     func=history_cleanup,
+#     trigger="interval",
+#     days=7,
+#     id='history_cleanup',
+#     replace_existing=True
+# )
+# scheduler.start()
 
-# Shut down the scheduler when exiting the app
-atexit.register(lambda: scheduler.shutdown())
+# # Shut down the scheduler when exiting the app
+# atexit.register(lambda: scheduler.shutdown())
 
 #RUN THE WEBAPP
 if __name__ == "__main__":

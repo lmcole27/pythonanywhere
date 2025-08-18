@@ -8,6 +8,17 @@
   <h1 class="heading">Medusa Codes</h1>
   <p class="description">This site is a place for me to share some projects.</p>
 
+  <h2 class="subheading"><a href="https://github.com/lmcole27/a_playground/blob/main/llamaDoc/assetManagement.ipynb">Retrieval Augmented Generation</a> </h2>
+  I spent a few months few months experimenting with RAG (Retrieval Augmented Generation).
+<p style="line-height: 1.6;">
+💰 I spent $ 0.18 to create embeddings and complete LLM calls while testing 4 embedding models (I used 2 models by OpenAI). It's cheap!<br>
+📈 I compared 4 embedding models and found 3 of the 4 models to have comparable results with HuggingFace's Sentence Transformers all-mpnet-base-v2 having a slight edge.<br>
+📓 Chat history greatly improves user experience with a chat agent but negatively impacted the results when processing unrelated test cases.<br>
+🚫 RAG doesn’t analyze documents to find insights and enable summarization. It provides additional context by retrieving results similar to the question - so manage your expectations!<br>
+💥 I'll be posting my RAG Chat Agent on my website soon!<br>
+
+🤓 Nerds, you can see all the details of my pipeline and evaluation in a <a href=" https://github.com/lmcole27/a_playground/blob/main/llamaDoc/assetManagement.ipynb">Jupyter Notebook</a> on github.
+
   <h2 class="subheading"><a href="/assistant">Personal Assistant</a> </h2>
   <p>This is a simple assistant built using OpenAI gpt-4o-mini model. It is a single page app with JavaScript frontend that calls API endpoints in the Python Flask backend. It uses Flask sessions to maintain conversation history, and has a function to clean up stale sessions.</p>
   <p>Coming Soon: I am working on a specialized assistant. That model needs additional tuning so that the embeddings will enable the retrieval of the most relevant information from ChromaDB.</p>
@@ -18,10 +29,10 @@
 
   <h2 class="subheading"><a href="/rain">Umbrella App</a> </h2>
   <p>Heading out? Wondering if you should bring an umbrella? This app will keep you dry.</p>
-  <p>I used <a href="https://www.visualcrossing.com/weather-api">Virtual crossing</a> weather API to retrieve the chance of rain, and 
-    <a href="https://www.twillio.com">Twilio</a> API to send the SMS message that lets you know whether you need an umbrella. 
+  <p>I used <a href="https://www.visualcrossing.com/weather-api">Virtual crossing</a> weather API to retrieve the chance of rain, and
+    <a href="https://www.twillio.com">Twilio</a> API to send the SMS message that lets you know whether you need an umbrella.
     The background image is by <a href="https://chatgpt.com/">ChatGPT 4o</a>.
-    I struggled a bit using <a href="">tailwindcss</a> and plan to come back and improve the look of the site.</p>  
+    I struggled a bit using <a href="">tailwindcss</a> and plan to come back and improve the look of the site.</p>
   <p>This Python Flask app is an adaptation of the rain tracker project in Angela Yu's <a href="https://www.udemy.com/course/100-days-of-code/?couponCode=OF83024F">100 Days of Code: The Complete Python Pro Bootcamp</a>.</p>
 
   <h2 class="subheading"><a href="/js_jokes">Dad Jokes</a> </h2>

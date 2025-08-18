@@ -8,16 +8,35 @@
   <h1 class="heading">Medusa Codes</h1>
   <p class="description">This site is a place for me to share some projects.</p>
 
+  <h2 class="subheading">Internet of Things</h2>
+  <p style="line-height: 1.6;">
+    🛠️ I made it! So far I've completed two parts:<br>
+        1: First, this temperature and humidity monitor, which displays the sensors readings.<br>
+        2: Second, a wifi light, that I can turn on and off using my mobile phone; anywhere in the world.<br>
+    🎯 My inspiration product is the GoveeLife thermometer and hygrometer I purchased on amazon for $50.  It is currently listed for $34.<br>
+    😅 Now, I need to combine these into a professional looking project for less than $34.<br>
+    ✈️ If you get addicted, you can travel with your makers kit (just be prepared to spend extra time in security).</p>
+
+<div class="clearfix">
+  <div class="img-container">
+  <img src="static\Temp_Humidity.jpg" alt="Temperature and humidity monitor" style="width:80%">
+  </div>
+  <div class="img-container">
+  <img src="static\Wifi_Led.jpg" alt="Wifi light that turns on and off using a mobile phone" style="width:80%">
+  </div>
+</div>
+
+
   <h2 class="subheading"><a href="https://github.com/lmcole27/a_playground/blob/main/llamaDoc/assetManagement.ipynb">Retrieval Augmented Generation</a> </h2>
   I spent a few months few months experimenting with RAG (Retrieval Augmented Generation).
-<p style="line-height: 1.6;">
-💰 I spent $ 0.18 to create embeddings and complete LLM calls while testing 4 embedding models (I used 2 models by OpenAI). It's cheap!<br>
-📈 I compared 4 embedding models and found 3 of the 4 models to have comparable results with HuggingFace's Sentence Transformers all-mpnet-base-v2 having a slight edge.<br>
-📓 Chat history greatly improves user experience with a chat agent but negatively impacted the results when processing unrelated test cases.<br>
-🚫 RAG doesn’t analyze documents to find insights and enable summarization. It provides additional context by retrieving results similar to the question - so manage your expectations!<br>
-💥 I'll be posting my RAG Chat Agent on my website soon!<br>
 
-🤓 Nerds, you can see all the details of my pipeline and evaluation in a <a href=" https://github.com/lmcole27/a_playground/blob/main/llamaDoc/assetManagement.ipynb">Jupyter Notebook</a> on github.
+<p style="line-height: 1.6;">
+    💰 I spent $ 0.18 to create embeddings and complete LLM calls while testing 4 embedding models (I used 2 models by OpenAI). It's cheap!<br>
+    📈 I compared 4 embedding models and found 3 of the 4 models to have comparable results with HuggingFace's Sentence Transformers all-mpnet-base-v2 having a slight edge.<br>
+    📓 Chat history greatly improves user experience with a chat agent but negatively impacted the results when processing unrelated test cases.<br>
+    🚫 RAG doesn’t analyze documents to find insights and enable summarization. It provides additional context by retrieving results similar to the question - so manage your expectations!<br>
+    💥 I'll be posting my RAG Chat Agent on my website soon!<br>
+    🤓 Nerds, you can see all the details of my pipeline and evaluation in a <a href=" https://github.com/lmcole27/a_playground/blob/main/llamaDoc/assetManagement.ipynb">Jupyter Notebook</a> on github.
 
   <h2 class="subheading"><a href="/assistant">Personal Assistant</a> </h2>
   <p>This is a simple assistant built using OpenAI gpt-4o-mini model. It is a single page app with JavaScript frontend that calls API endpoints in the Python Flask backend. It uses Flask sessions to maintain conversation history, and has a function to clean up stale sessions.</p>

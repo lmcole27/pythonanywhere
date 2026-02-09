@@ -17,6 +17,7 @@ import uuid
 # from apscheduler.schedulers.background import BackgroundScheduler #This is not allowed in pythonanywhere... need to find another method.
 import os
 import csv
+import datetime
 from dotenv import load_dotenv
 
 
@@ -29,6 +30,9 @@ load_dotenv()
 project_folder = os.path.expanduser('~/mysite')
 load_dotenv(os.path.join(project_folder, '.env'))
 
+#TELEGRAM BOT SECRET ENDPOINT INFORMATION
+TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
+TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
 
 #RAIN TRACKER SECRET ENDPOINT INFORMTION - WEATHER & TWILIO
 ACCOUNT_SID = os.environ.get('ACCOUNT_SID')
@@ -72,9 +76,31 @@ def generate_response(question: str, chat_history):
             ans = chunk.choices[0].delta.content
             yield ans
 
+def send_telegram_alert(page_name):
+    print("Checking if Telegram alert should be sent for", page_name)
+    if not session.get('alerted'):
+        proxies = {
+            'http': 'http://proxy.server:3128',
+            'https': 'http://proxy.server:3128',
+        }
+
+        now = datetime.datetime.now().strftime("%H:%M:%S")
+        message = f"🔔 {now} - New visitor on pythonanywhere {page_name}!"
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage?chat_id={TELEGRAM_CHAT_ID}&text={message}"
+
+        try:
+            #response = requests.get(url, timeout=5)
+            response = requests.get(url, proxies=proxies, timeout=5)
+            session['alerted'] = True  # Mark as alerted for this browser session
+            print(f"Telegram alert sent for {page_name} at {now}")
+            print(response.json())
+        except Exception as e:
+            print(f"Telegram failed: {e}")
+
 #WEB HOME PAGE
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
+    send_telegram_alert("Homepage")
     return render_template("index.html")
 
 #LOG FILE PROCESSOR HOMEPAGE

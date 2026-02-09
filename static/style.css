@@ -6,18 +6,6 @@
   box-sizing: border-box;
 }
 
-.img-container {
-  float: left;
-  width: 50%;
-  padding: 5px;
-}
-
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
 
 body {
     font-family: 'Lato', san-serif;
@@ -166,4 +154,96 @@ a:active {
     margin-top: 10px;
     font-family: Arial, sans-serif;
     color: #333;
+}
+
+.emoticon-list {
+  list-style: none;     /* Removes the default black dots */
+  padding-left: 0;      /* Removes the default browser indent */
+  margin: 0;
+}
+
+.emoticon-list li {
+  margin-bottom: 12px;  /* This creates the extra space between items */
+}
+
+.emoticon-list li:last-child {
+  margin-bottom: 24px;
+}
+
+@media (min-width: 768px) {
+    .emoticon-list {
+        margin-left: 20px;
+        margin-bottom: 0px;
+    }
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    display: flex;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px
+    rgba(0,0,0,0.2);
+}
+
+@media (min-width: 768px) {
+    .video-container video {
+        width: 40%;
+        display: block;
+        margin: 20px 0;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px
+        rgba(0,0,0,0.2);
+    }
+}
+
+.img-container {
+  float: left;
+  width: 50%;
+  padding: 5px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Container for both items */
+.gallery-container {
+  display: flex;
+  flex-direction: row; /* Side-by-side on desktop */
+  gap: 40px;           /* Space between items */
+  padding: 5px;
+}
+
+/* Individual item unit */
+.gallery-item {
+  flex: 1;             /* Equal width for both items */
+  display: flex;
+  flex-direction: column; /* Label on top of image */
+}
+
+.gallery-item img {
+  width: 100%;         /* Responsive image width */
+  height: auto;
+}
+
+/* Label styling */
+.label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Mobile: Stack items vertically */
+@media screen and (max-width: 768px) {
+  .gallery-container {
+    flex-direction: column; /* Stacks items on top of each other */
+  }
+}
+@media screen and (max-width: 768px) {
+    .gallery-item img {
+      width: 100%;         /* Responsive image width */
+      height: auto;
+    }
 }

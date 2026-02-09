@@ -58,7 +58,7 @@ window.onload = () => {
       .then(data => {
         if (data.success) {
           const token = data.token
-          showOutput(`Welcome Guest ${token}`);
+          showOutput(`Welcome Guest`);
           closePopup();
         } else {
             showPopup();

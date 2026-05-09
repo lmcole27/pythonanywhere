@@ -19,6 +19,7 @@ import os
 import datetime
 from dotenv import load_dotenv
 
+from routes.dad_jokes import dad_jokes_flask_blueprint, dad_jokes_js_blueprint
 
 #REQUIRED FOR LOGGING IN PYTHONANYWHERE
 logging.basicConfig(stream=sys.stderr, level=logging.INFO)
@@ -50,6 +51,10 @@ app.secret_key = os.environ['FLASK_SECRET_KEY']
 app.config['SESSION_COOKIE_SECURE'] = True  # Set to True in production
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+
+# app register via Blueprint
+app.register_blueprint(dad_jokes_flask_blueprint)
+app.register_blueprint(dad_jokes_js_blueprint)
 
 # #RAIN TRACKER INPUT FORM
 # class rainForm(FlaskForm):
@@ -244,20 +249,20 @@ def welcome():
 #         return f"Error: {str(e)}", 404
 
 
-#FLASK DAD JOKES
-@app.route('/flask_jokes', methods=['GET', 'POST'])
-def flask_jokes():
-    response = requests.get('https://icanhazdadjoke.com', headers={"Accept":"application/json"})
-    response.raise_for_status()
-    data = response.json()
-    result = data["joke"]
-    print(result)
-    return render_template("flask_jokes.html", result=result)
+# #FLASK DAD JOKES
+# @app.route('/flask_jokes', methods=['GET', 'POST'])
+# def flask_jokes():
+#     response = requests.get('https://icanhazdadjoke.com', headers={"Accept":"application/json"})
+#     response.raise_for_status()
+#     data = response.json()
+#     result = data["joke"]
+#     print(result)
+#     return render_template("flask_jokes.html", result=result)
 
-#JS DAD JOKES
-@app.route('/js_jokes', methods=['GET', 'POST'])
-def js_jokes():
-    return render_template("js_jokes.html")
+# #JS DAD JOKES
+# @app.route('/js_jokes', methods=['GET', 'POST'])
+# def js_jokes():
+#     return render_template("js_jokes.html")
 
 # #UMBRELLA APP HOME PAGE
 # @app.route('/rain', methods=['GET', 'POST'])

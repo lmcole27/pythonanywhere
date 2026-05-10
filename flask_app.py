@@ -20,6 +20,7 @@ import datetime
 from dotenv import load_dotenv
 
 from routes.dad_jokes import dad_jokes_flask_blueprint, dad_jokes_js_blueprint
+from routes.umbrella_app import umbrella_blueprint
 
 #REQUIRED FOR LOGGING IN PYTHONANYWHERE
 logging.basicConfig(stream=sys.stderr, level=logging.INFO)
@@ -34,11 +35,6 @@ load_dotenv(os.path.join(project_folder, '.env'))
 TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
 TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
 
-# #RAIN TRACKER SECRET ENDPOINT INFORMTION - WEATHER & TWILIO
-# ACCOUNT_SID = os.environ.get('ACCOUNT_SID')
-# AUTH_TOKEN = os.environ.get('AUTH_TOKEN')
-# wds_auth = os.environ.get('WDS_AUTH')
-# from_tel = os.environ.get('from_tel')
 
 #CREATE API CLIENTS
 # twilioClient = Client(ACCOUNT_SID, AUTH_TOKEN)
@@ -55,13 +51,7 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 # app register via Blueprint
 app.register_blueprint(dad_jokes_flask_blueprint)
 app.register_blueprint(dad_jokes_js_blueprint)
-
-# #RAIN TRACKER INPUT FORM
-# class rainForm(FlaskForm):
-#     city = StringField('City', validators=[DataRequired()])
-#     country = StringField('Country', validators=[DataRequired()])
-#     phone_no = TelField('Phone Number', validators=[DataRequired()])
-#     submit = SubmitField('Submit')
+app.register_blueprint(umbrella_blueprint)
 
 #OPENAI CLIENT FUNCTION
 def generate_response(question: str, chat_history):
@@ -248,79 +238,6 @@ def welcome():
 #     except Exception as e:
 #         return f"Error: {str(e)}", 404
 
-
-# #FLASK DAD JOKES
-# @app.route('/flask_jokes', methods=['GET', 'POST'])
-# def flask_jokes():
-#     response = requests.get('https://icanhazdadjoke.com', headers={"Accept":"application/json"})
-#     response.raise_for_status()
-#     data = response.json()
-#     result = data["joke"]
-#     print(result)
-#     return render_template("flask_jokes.html", result=result)
-
-# #JS DAD JOKES
-# @app.route('/js_jokes', methods=['GET', 'POST'])
-# def js_jokes():
-#     return render_template("js_jokes.html")
-
-# #UMBRELLA APP HOME PAGE
-# @app.route('/rain', methods=['GET', 'POST'])
-# def rain():
-#     form = rainForm()
-
-#     if request.method == "POST":
-
-#         #CONVERT TO LOWERCASE
-#         location = (str(request.form["city"]) + "," + str(request.form["country"])).lower()
-#         to_tel = request.form["phone_no"]
-
-#         #BUILD THE ENDPOINT
-#         WDS_ENDPOINT = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations="+ location + "&aggregateHours=24&forcastDays=1&unitGroup=us&shortColumnNames=true&contentType=json&key=" + wds_auth
-
-#         #FIND THE WEATHER
-#         response = requests.get(url=WDS_ENDPOINT)
-
-#         try:
-#             data = response.json()
-#             precipitation = data['locations'][location]['values'][0]['pop']
-
-#         except:
-#             flash("Hmmm... we can't find that city. Please try again.")
-#             return redirect(url_for('rain'))
-
-#         else:
-#             #LOGIC FOR RAIN/UMBRELLA
-#             if precipitation >50:
-#                 content = "Bring an Umbrella in " + request.form["city"] + "!"
-#             else:
-#                 content = "No rain today in " + request.form["city"] + "!"
-
-#             try:
-#                 #SEND THE NOTIFICATION TO YOUR DEVICE USING TWILIO
-#                 message = twilioClient.messages \
-#                                 .create(
-#                                         body=content,
-#                                         from_=from_tel,
-#                                         to=to_tel
-#                                     )
-
-#             except:
-#                 flash("Hmmm... we can't reach that telephone number. Please try again.")
-#                 return redirect(url_for('rain'))
-
-#             else:
-#                 flash("Sent! Check your messages.")
-
-#             finally:
-#                 return redirect(url_for('rain'))
-
-#         finally:
-#             return redirect(url_for('rain'))
-#     else:
-#         return render_template("rain.html", form=form)
-
-#     return render_template("rain.html", form=form)
 
 # ASSISTANT CODE
 

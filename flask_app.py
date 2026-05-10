@@ -1,44 +1,32 @@
 import logging
 import sys
 from flask import Flask, render_template, request, Response, stream_with_context, jsonify, session #redirect, flash, send_file, url_for
-#from flask_wtf import FlaskForm
-#from wtforms import StringField, SubmitField, TelField
-#from wtforms.validators import DataRequired
-#from flask_wtf.csrf import CSRFProtect
-# from twilio.rest import Client
 import requests
-from openai import OpenAI
 from flask_cors import CORS
 #import json
 from assistantFunctions import load_chat, add_message, save_chat #history_cleanup
 #from api import guest
-import uuid
 #import atexit
 # from apscheduler.schedulers.background import BackgroundScheduler #This is not allowed in pythonanywhere... need to find another method.
 import os
 import datetime
 from dotenv import load_dotenv
 
-from routes.dad_jokes import dad_jokes_flask_blueprint, dad_jokes_js_blueprint
+from routes.dad_jokes import dad_jokes_blueprint
 from routes.umbrella_app import umbrella_blueprint
+from routes.assistant import assistant_blueprint
+from routes.index import index_blueprint
+
 
 #REQUIRED FOR LOGGING IN PYTHONANYWHERE
 logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 
-load_dotenv()
 
 #INFO REQUIRED TO LOAD .env in pythonanywhere
+load_dotenv()
 project_folder = os.path.expanduser('~/mysite')
 load_dotenv(os.path.join(project_folder, '.env'))
 
-#TELEGRAM BOT SECRET ENDPOINT INFORMATION
-TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
-TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
-
-
-#CREATE API CLIENTS
-# twilioClient = Client(ACCOUNT_SID, AUTH_TOKEN)
-openaiClient = OpenAI(api_key=os.environ['OPENAI_API_KEY'], organization=os.environ['ORGANIZATION'], project=os.environ['PROJECT'])
 
 #CREATE WEBAPP
 app = Flask(__name__)
@@ -49,266 +37,10 @@ app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
 # app register via Blueprint
-app.register_blueprint(dad_jokes_flask_blueprint)
-app.register_blueprint(dad_jokes_js_blueprint)
+app.register_blueprint(index_blueprint)
+app.register_blueprint(dad_jokes_blueprint)
 app.register_blueprint(umbrella_blueprint)
-
-#OPENAI CLIENT FUNCTION
-def generate_response(question: str, chat_history):
-    # Send API request to ChatGPT and recieve resonse
-    response = openaiClient.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": question},
-                  {"role": "system", "content": f"consider the conversation context {chat_history}"},
-                  {"role": "system", "content":"provide response with HTML tags but no header."
-                   }],
-        stream=True,
-    )
-
-    for chunk in response:
-        if chunk.choices[0].delta.content is not None:
-            ans = chunk.choices[0].delta.content
-            yield ans
-
-def send_telegram_alert(page_name):
-    print("Checking if Telegram alert should be sent for", page_name)
-    if not session.get('alerted'):
-        proxies = {
-            'http': 'http://proxy.server:3128',
-            'https': 'http://proxy.server:3128',
-        }
-
-        now = datetime.datetime.now().strftime("%H:%M:%S")
-        message = f"🔔 {now} - New visitor on pythonanywhere {page_name}!"
-        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage?chat_id={TELEGRAM_CHAT_ID}&text={message}"
-
-        try:
-            #response = requests.get(url, timeout=5)
-            response = requests.get(url, proxies=proxies, timeout=5)
-            session['alerted'] = True  # Mark as alerted for this browser session
-            print(f"Telegram alert sent for {page_name} at {now}")
-            print(response.json())
-        except Exception as e:
-            print(f"Telegram failed: {e}")
-
-#WEB HOME PAGE
-@app.route('/', methods=['GET', 'POST'])
-def welcome():
-    send_telegram_alert("Homepage")
-    return render_template("index.html")
-
-# #LOG FILE PROCESSOR HOMEPAGE
-# @app.route('/log', methods=['GET', 'POST'])
-# def process_log():
-#     return render_template("processlog.html")
-
-# #LOG FILE PROCESSOR OUTPUT
-# @app.route('/upload', methods=['POST'])
-# def upload():
-#     # Check if a file was uploaded
-#     if 'file' not in request.files:
-#         return render_template("processlog.html")
-#     file = request.files['file']
-
-#     # Check if the file has a valid name
-#     if file.filename == '':
-#         return render_template("processlog.html")
-
-#     #Set variables
-#     i_list = [] # list of Unique IDs
-#     count = 0 # Number of Unique IDs
-#     writeunid = 0 # Indicator of whether this is an error to capture
-
-#     # Read file content directly / load to memory
-#     file_content = file.read().decode('utf-8')  # Assuming the file is a text file
-#     lines=file_content.splitlines()
-
-#     for line in lines:
-#         if 'severity' in line:
-#             if 'severity="Critical"' in line:
-#                 writeunid = 1
-#             else:
-#                 writeunid =0
-#         if "<unid>" in line and writeunid==1:
-#             unid= str(line).strip()
-#             i_list.append(unid)
-#             writeunid==0
-
-#     for item in i_list:
-#         count += 1
-
-#     return render_template("processlog_output.html", DATA=i_list, count=count)
-
-# #LOG FILE PROCESSOR HOMEPAGE
-# @app.route('/compare', methods=['GET', 'POST'])
-# def comparefiles():
-#     return render_template("compare.html")
-
-# #LOG FILE PROCESSOR OUTPUT
-# @app.route('/uploadfiles', methods=['POST'])
-# def uploadfiles():
-#     # Check if a file was uploaded
-#     if 'file1' not in request.files:
-#         return render_template("compare.html")
-#     elif 'file2' not in request.files:
-#         return render_template("compare.html")
-
-#     primaryfile = request.files['file1']
-#     secondaryfile = request.files['file2']
-
-#     # Check if the file has a valid name
-#     if primaryfile.filename == '':
-#         return render_template("compare.html")
-#     elif secondaryfile.filename == '':
-#         return render_template("compare.html")
-
-#     # Read file content directly
-#     primaryfile_content = primaryfile.read().decode('utf-8')  # Assuming the file is a text file
-#     secondaryfile_content = secondaryfile.read().decode('utf-8')
-#     primelines=primaryfile_content.splitlines()
-#     secondlines=secondaryfile_content.splitlines()
-
-#         # Initialize an empty set to store the rows
-#     primeset = set()
-#     secondset = set()
-#     missingitemset = set()
-#     extraitemset = set()
-
-#     # Initialize count variables
-#     primecount = 0
-#     secondcount = 0
-#     blanks = 0
-#     missingcount = 0
-#     blanks2 = 0
-#     duplicates2 = 0
-#     extracount = 0
-
-#     # Append the row to the list
-#     for row in primelines:
-#         if row == "":
-#             blanks += 1
-#         else:
-#             primeset.add(row)
-
-#     primecount = len(primelines)
-#     duplicates = int(primecount) - int(len(primeset)) - int(blanks)
-
-#     for row in secondlines:
-#         if row == "":
-#             blanks2 += 1
-#         else:
-#             secondset.add(row)
-
-#     secondcount = len(secondlines)
-#     duplicates2 = int(secondcount) - int(len(secondset)) - int(blanks2)
-
-#     for item in primeset:
-#         if item not in secondset:
-#             missingitemset.add(item)
-#             missingcount+=1
-
-#     for item in secondset:
-#         if item not in primeset:
-#             extraitemset.add(item)
-#             extracount += 1
-
-#     # Save to a CSV file
-#     with open("output.csv", mode="w", newline="") as csvoutputfile:
-#         writer = csv.writer(csvoutputfile)
-#         writer.writerow(missingitemset)
-
-#     with open('output.txt', 'w') as txtoutputfile:
-#         for row in missingitemset:
-#             txtoutputfile.write(row + '\n')
-
-#     return render_template("compare_output.html", missingitemlist=missingitemset, primecount=primecount, secondcount=secondcount, blanks=blanks, duplicates=duplicates, missingcount=missingcount, blanks2=blanks2, extracount=extracount, extraitemlist=extraitemset, duplicates2=duplicates2)
-
-
-# @app.route('/downloads')
-# def download():
-#     return render_template('downloads.html')
-
-# @app.route('/download/<filename>')
-# def download_file(filename):
-#     file_path = filename
-
-#     try:
-#         # Serve the file for download
-#         return send_file(file_path, as_attachment=True)
-#     except Exception as e:
-#         return f"Error: {str(e)}", 404
-
-
-# ASSISTANT CODE
-
-@app.route('/assistant', methods=['GET', 'POST'])
-def index():
-    return render_template('assistant.html')
-
-@app.route('/assistantAPI/set_session', methods=['GET','POST'])
-def set_session():
-    token = uuid.uuid4()  # unique guest ID
-    token_str = str(token)
-    session['token'] = token_str  # Store the token in session
-    return jsonify(success=True, token=token_str)
-
-@app.route('/assistantAPI/get_session', methods=['GET', 'POST'])
-def get_session():
-    id = session.get('token', None)
-    sesh = session.get('session', None)
-    print("id = ", id, "sesh = ", sesh)
-    if id is None:
-        return jsonify({"error": "No session found"}), 404
-    return jsonify(success=True, token=id)
-
-@app.route('/generate', methods=['POST'])
-def generate():
-    question = request.form.get('question')
-    if not question:
-        return "Please provide a question", 400
-
-    # Get session token
-    session_token = session.get('token')
-    if not session_token:
-        return "Session token not found", 400
-
-    # Load chat history for the user
-    chat_history = load_chat(session_token)
-
-    # Save question to chat_history
-    add_message(chat_history, "user", question)
-    save_chat(chat_history, session_token)
-
-    def generate():
-        for chunk in generate_response(question, chat_history):
-            yield chunk
-
-    return Response(stream_with_context(generate()), mimetype='text/plain')
-
-
-@app.route('/assistantAPI/response', methods=['POST'])
-def receive_post():
-    try:
-        # Get JSON data from the request
-        data = request.get_json()
-        response = data["message"]
-
-        # Get session token
-        session_token = session.get('token')
-        if not session_token:
-            return jsonify({"error": "Session token not found"}), 400
-
-        # Load chat history for the user
-        chat_history = load_chat(session_token)
-
-        # Save response to chat_history
-        add_message(chat_history, "assistant", response)
-        save_chat(chat_history, session_token)
-
-        # Respond back to client
-        return jsonify({"message": "Data received successfully", "received": data}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
+app.register_blueprint(assistant_blueprint)
 
 
 # # Schedule job

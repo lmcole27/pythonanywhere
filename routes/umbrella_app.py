@@ -58,8 +58,12 @@ def rain():
 
     if form.validate_on_submit():
         wds_auth = os.environ.get('WDS_AUTH')
+        if not wds_auth:
+            flash("Weather service is not configured. Please set WDS_AUTH and try again.")
+            return redirect(url_for('umbrella.rain'))
+
         # CONVERT LOCATION TO LOWERCASE
-        location = f"{form.city.data},{form.country.data}".lower()
+        location = f"{form.city.data.strip()},{form.country.data.strip()}".lower()
         to_tel = form.phone_no.data
         WDS_ENDPOINT = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast"
 

@@ -213,6 +213,7 @@ def test_rain_post_weather_request_failure_redirects(client, monkeypatch):
         raise requests.RequestException("weather unavailable")
 
     monkeypatch.setattr("routes.umbrella_app.requests.get", fake_get)
+    monkeypatch.setenv("WDS_AUTH", "fake-weather-key")
 
     response = client.post('/rain', data={
         "city": "Toronto",
@@ -234,6 +235,7 @@ def test_rain_post_bad_weather_response_redirects(client, monkeypatch):
             return {"locations": {}}
 
     monkeypatch.setattr("routes.umbrella_app.requests.get", lambda url, params, timeout: FakeWeatherResponse())
+    monkeypatch.setenv("WDS_AUTH", "fake-weather-key")
 
     response = client.post('/rain', data={
         "city": "Toronto",
@@ -272,6 +274,7 @@ def test_rain_post_twilio_failure_redirects(client, monkeypatch):
     monkeypatch.setattr("routes.umbrella_app.requests.get", lambda url, params, timeout: FakeWeatherResponse())
     monkeypatch.setattr("routes.umbrella_app.get_twilio_client", lambda: FakeTwilioClient())
     monkeypatch.setenv("from_tel", "+15550000000")
+    monkeypatch.setenv("WDS_AUTH", "fake-weather-key")
 
     response = client.post('/rain', data={
         "city": "Toronto",
@@ -281,6 +284,20 @@ def test_rain_post_twilio_failure_redirects(client, monkeypatch):
 
     assert response.status_code == 302
     assert response.headers["Location"].endswith("/rain")
+
+
+def test_rain_post_missing_weather_key_redirects(client, monkeypatch):
+    """Test that missing weather API configuration shows a clear setup error."""
+    monkeypatch.delenv("WDS_AUTH", raising=False)
+
+    response = client.post('/rain', data={
+        "city": "Toronto",
+        "country": "Canada",
+        "phone_no": "+15551112222",
+    }, follow_redirects=True)
+
+    assert response.status_code == 200
+    assert b"Weather service is not configured" in response.data
 
 
 def test_assistant_page_renders(client):

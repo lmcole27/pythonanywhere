@@ -289,6 +289,9 @@ def test_assistant_page_renders(client):
 
     assert response.status_code == 200
     assert b'<!DOCTYPE html>' in response.data or b'<html' in response.data
+    assert b'id="chat-messages"' in response.data
+    assert b'id="question-form"' in response.data
+    assert b'id="question"' in response.data
 
 
 def test_assistant_set_session_creates_token(client):
@@ -411,6 +414,5 @@ def test_assistant_response_saves_message(client, monkeypatch):
     data = response.get_json()
 
     assert response.status_code == 200
-    assert data["message"] == "Data received successfully"
-    assert data["received"] == {"message": "Assistant answer"}
+    assert data == {"message": "Data received successfully"}
     assert saved_tokens == ["test-session-token"]

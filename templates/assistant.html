@@ -20,25 +20,25 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="content">
-            <div class="page-content" id="main-content">
-                
-                <h1>Personal Assistant</h1>
-                <div id="output"></div>
-                <h2>Ask me a question</h2>
+    <main class="page-content chat-shell" id="main-content">
+        <header class="chat-header">
+            <h1>Personal Assistant</h1>
+            <div id="output" class="session-status"></div>
+        </header>
 
-                <form id="question-form">
-                    <input type="text" id="question" name="question" placeholder="Enter your question" class="large-input" required>
-                    <button type="submit" class="modern-button">Submit</button>
-                </form>
-                <h2 id="questionAskedHeader">You Asked</h2>
-                <div id="questionAsked"></div>
-                <h2 id="responseHeader">Response</h2>
-                <div id="response" class="response"></div>
+        <section id="chat-messages" class="chat-messages" aria-live="polite">
+            <div class="chat-message assistant-message">
+                <div class="message-bubble">
+                    <p>Ask me a question when you're ready.</p>
+                </div>
             </div>
-        </div>
-    </div>
+        </section>
+
+        <form id="question-form" class="chat-input-bar">
+            <input type="text" id="question" name="question" placeholder="Message the assistant" autocomplete="off" required>
+            <button type="submit" class="send-button">Send</button>
+        </form>
+    </main>
 
     <script src="/static/assistant_script.js"></script>
 </body>

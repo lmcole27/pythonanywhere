@@ -1,15 +1,9 @@
 import logging
 import sys
-from flask import Flask, render_template, request, Response, stream_with_context, jsonify, session #redirect, flash, send_file, url_for
-import requests
-from flask_cors import CORS
-#import json
-from assistantFunctions import load_chat, add_message, save_chat #history_cleanup
-#from api import guest
-#import atexit
-# from apscheduler.schedulers.background import BackgroundScheduler #This is not allowed in pythonanywhere... need to find another method.
 import os
-import datetime
+
+from flask import Flask
+from flask_cors import CORS
 from dotenv import load_dotenv
 
 from routes.dad_jokes import dad_jokes_blueprint
@@ -41,21 +35,6 @@ app.register_blueprint(index_blueprint)
 app.register_blueprint(dad_jokes_blueprint)
 app.register_blueprint(umbrella_blueprint)
 app.register_blueprint(assistant_blueprint)
-
-
-# # Schedule job
-# scheduler = BackgroundScheduler(daemon=True)
-# scheduler.add_job(
-#     func=history_cleanup,
-#     trigger="interval",
-#     days=7,
-#     id='history_cleanup',
-#     replace_existing=True
-# )
-# scheduler.start()
-
-# # Shut down the scheduler when exiting the app
-# atexit.register(lambda: scheduler.shutdown())
 
 #RUN THE WEBAPP
 if __name__ == "__main__":

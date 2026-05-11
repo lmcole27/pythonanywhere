@@ -110,7 +110,7 @@ body.modal-open {
 
 .chat-header h1 {
     margin: 0;
-    font-family: 'Arsenal SC', Georgia, serif;
+    font-family: 'Arsenal';
     font-size: clamp(1.45rem, 3vw, 2.15rem);
     font-weight: 700;
     letter-spacing: 0;
@@ -149,17 +149,18 @@ body.modal-open {
     padding: 12px 15px;
     border-radius: 8px;
     font-size: 1rem;
+    font-family: 'Lato';
     line-height: 1.55;
     overflow-wrap: anywhere;
 }
 
 .user-message .message-bubble {
-    background: #2f5d50;
+    background: #3a76c4;
     color: #fff;
 }
 
 .assistant-message .message-bubble {
-    border: 1px solid #e2dfd6;
+    border: 1px solid #3a76c4;
     background: #fff;
     color: #202124;
 }
@@ -205,8 +206,8 @@ body.modal-open {
 }
 
 .chat-input-bar input:focus {
-    border-color: #2f5d50;
-    box-shadow: 0 0 0 3px rgba(47, 93, 80, 0.15);
+    border-color: #3a76c4;
+    /* box-shadow: 0 0 0 3px rgba(47, 93, 80, 0.15); */
     outline: none;
 }
 
@@ -216,7 +217,7 @@ body.modal-open {
     padding: 0 18px;
     border: none;
     border-radius: 8px;
-    background: #2f5d50;
+    background: #3a76c4;
     color: #fff;
     cursor: pointer;
     font: inherit;

@@ -6,7 +6,43 @@
 <div class="container">
     <div class="content">
         <h1 class="heading">Medusa Codes</h1>
-        <p class="description">I love learning and experimenting with cool tech. Where will curiosity lead next?</p>
+        <p class="description">I’m Linda Cole, a solution manager and curious creator. 
+            I build projects to explore new technologies and turn ideas into working applications. 
+            I love learning and experimenting with cool tech. Where will curiosity lead next?</p>
+
+        <h2 class="subheading"><a href="https://github.com/lmcole27/agenticAI/tree/main/FlaskApp">Metadata Extractor</a> </h2>
+        <p>Technical design documents contain a wealth of information about individual integrations, 
+            but it can be difficult to bring that information together into a clear view of the overall landscape. 
+            I built an AI-powered Metadata Extractor to turn information from those documents into structured data 
+            that can be reviewed and analyzed.</p>
+
+        <p>Built with Python, LangGraph, Letta and OpenAI, the prototype combines an agentic workflow with deterministic 
+            validation and source citations. The citations help a reviewer trace extracted information back to the source, 
+            while validation checks the structured output.</p>
+
+        <p>The extraction is configurable: users define the information they want to capture, and the tool structures 
+            the results for analysis. I tested the prototype with fictional integration design documents and résumés 
+            to explore how the same workflow could support different information needs.</p>
+
+        <p>The tool includes a human review step for validation prior to committing results to the database.</p>    
+     
+        <p>Check out the <a href="https://github.com/lmcole27/agenticAI/tree/main/FlaskApp">code</a> on GitHub.</p>
+
+        <h2 class="subheading"><a href="https://github.com/lmcole27/a_playground/blob/main/llamaDoc/assetManagement.ipynb">Retrieval Augmented Generation</a> </h2>
+        <p>I spent a few months experimenting with RAG (Retrieval Augmented Generation).</p>
+
+        <ul class="emoticon-list">
+            <li>💰 I spent $ 0.18 to create embeddings and complete LLM calls while testing 4 embedding models
+            (I used 2 models by OpenAI). It's cheap!</li>
+            <li>📈 I compared 4 embedding models and found 3 of the 4 models to have comparable results with
+            HuggingFace's Sentence Transformers all-mpnet-base-v2 having a slight edge.</li>
+            <li>📓 Chat history greatly improves user experience with a chat agent but negatively
+            impacted the results when processing unrelated test cases.</li>
+            <li>🚫 RAG doesn’t analyze documents to find insights and enable summarization. It provides
+            additional context by retrieving results similar to the question - so manage your expectations!</li>
+            <li>🤓 Nerds, you can see all the details of my pipeline and evaluation in a
+            <a href=" https://github.com/lmcole27/a_playground/blob/main/llamaDoc/assetManagement.ipynb">Jupyter Notebook</a> on github.</li>
+        </ul>
 
         <h2 class="subheading">Pose Based Game Controller</h2>
         <p>👇 Watch me play snake and subway surfer using a pose-based controller I built with Python, OpenCV, MediaPipe, and
@@ -24,22 +60,6 @@
               Your browser does not support the video tag.
             </video>
         </div>
-
-        <h2 class="subheading"><a href="https://github.com/lmcole27/a_playground/blob/main/llamaDoc/assetManagement.ipynb">Retrieval Augmented Generation</a> </h2>
-        <p>I spent a few months experimenting with RAG (Retrieval Augmented Generation).</p>
-
-        <ul class="emoticon-list">
-            <li>💰 I spent $ 0.18 to create embeddings and complete LLM calls while testing 4 embedding models
-            (I used 2 models by OpenAI). It's cheap!</li>
-            <li>📈 I compared 4 embedding models and found 3 of the 4 models to have comparable results with
-            HuggingFace's Sentence Transformers all-mpnet-base-v2 having a slight edge.</li>
-            <li>📓 Chat history greatly improves user experience with a chat agent but negatively
-            impacted the results when processing unrelated test cases.</li>
-            <li>🚫 RAG doesn’t analyze documents to find insights and enable summarization. It provides
-            additional context by retrieving results similar to the question - so manage your expectations!</li>
-            <li>🤓 Nerds, you can see all the details of my pipeline and evaluation in a
-            <a href=" https://github.com/lmcole27/a_playground/blob/main/llamaDoc/assetManagement.ipynb">Jupyter Notebook</a> on github.</li>
-        </ul>
 
         <p><a href="/assistant">Personal Assistant</a> is the base project for the RAG solution. It is single page app built using
         OpenAI gpt-4o-mini model. JavaScript calls API endpoints in the Python Flask backend.

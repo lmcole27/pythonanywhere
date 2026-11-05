@@ -25,7 +25,7 @@
             to explore how the same workflow could support different information needs.</li>
             <li>🕵🏻‍♀️ The tool includes a human review step for validation prior to committing results to the database.</li>  
        
-        <div class="gallery-container">
+        <div class="gallery-container gallery-container--metadata">
           <div class="gallery-item">
             <span class="label">Configurable Extraction Template</span>
             <img src="static\Extraction_Template.jpg" alt="Extraction Template">
@@ -54,27 +54,6 @@
             <li>🤓 Nerds, you can see all the details of my pipeline and evaluation in a
             <a href=" https://github.com/lmcole27/a_playground/blob/main/llamaDoc/assetManagement.ipynb">Jupyter Notebook</a> on github.</li>
         </ul>
-
-        <h2 class="subheading">Pose Based Game Controller</h2>
-        <p>👇 Watch me play snake and subway surfer using a pose-based controller I built with Python, OpenCV, MediaPipe, and
-        PyAutoGUI. The controller maps body movements to in-game actions and works for any game that uses the mapped controls.
-        Practical challenges included:</p>
-
-        <ul class="emoticon-list">
-            <li>🎥 Finding poses that the camera could see clearly without stepping too far from the screen</li>
-            <li>⌨️ Preventing repeated key presses (so it didn’t “hammer” inputs)</li>
-            <li>🎬 Adding logic to start, pause, and resume the control</li>
-        </ul>
-
-        <div class="video-container">
-            <video autoplay loop muted controls source src="/static/gameController_compressed.mp4" type="video/mp4" preload="metadata">
-              Your browser does not support the video tag.
-            </video>
-        </div>
-
-        <p><a href="/assistant">Personal Assistant</a> is the base project for the RAG solution. It is single page app built using
-        OpenAI gpt-4o-mini model. JavaScript calls API endpoints in the Python Flask backend.
-        Flask sessions are used to maintain conversation history. There is a function to clean up stale sessions.</p>
 
         <h2 class="subheading">Computer Vision meets ESP32</h2>
             <p> Check out the video to see how the lights respond to the hand gestures, sent over my home wireless network. This project combines:
@@ -114,10 +93,30 @@
           </div>
         </div>
 
-
         <!--<h2 class="subheading"><a href="/log">Log File Processor</a> </h2>-->
         <!--<p>In my current role, I've been hands on in cloud migration work.  I've added these tools here to share with my teammates.  The <a href="/log">Log File Processor</a> tool works for a specific log file that doesn't contain any confidential data.</p>-->
         <!--<p>The <a href="/compare">List Comparison</a> tool is used to compare a primary or source file that lists unique identifiers with a secondary or destination file listing unique identifiers. I made a few improvements to reduce the processing time for very large files.</p>-->
+
+        <h2 class="subheading">Pose Based Game Controller</h2>
+        <p>👇 Watch me play snake and subway surfer using a pose-based controller I built with Python, OpenCV, MediaPipe, and
+        PyAutoGUI. The controller maps body movements to in-game actions and works for any game that uses the mapped controls.
+        Practical challenges included:</p>
+
+        <ul class="emoticon-list">
+            <li>🎥 Finding poses that the camera could see clearly without stepping too far from the screen</li>
+            <li>⌨️ Preventing repeated key presses (so it didn’t “hammer” inputs)</li>
+            <li>🎬 Adding logic to start, pause, and resume the control</li>
+        </ul>
+
+        <div class="video-container">
+            <video autoplay loop muted controls source src="/static/gameController_compressed.mp4" type="video/mp4" preload="metadata">
+              Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <p><a href="/assistant">Personal Assistant</a> is the base project for the RAG solution. It is single page app built using
+        OpenAI gpt-4o-mini model. JavaScript calls API endpoints in the Python Flask backend.
+        Flask sessions are used to maintain conversation history. There is a function to clean up stale sessions.</p>
 
         <h2 class="subheading"><a href="/rain">Umbrella App</a> </h2>
         <p>Heading out? Wondering if you should bring an umbrella? This app will keep you dry.</p>

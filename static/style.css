@@ -229,6 +229,18 @@ a:active {
   height: auto;
 }
 
+/* Split the metadata gallery's usable width 1:2, preserving the shared gap. */
+@media screen and (min-width: 769px) {
+  .gallery-container--metadata > .gallery-item {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .gallery-container--metadata > .gallery-item:last-child {
+    flex-grow: 2;
+  }
+}
+
 /* Label styling */
 .label {
   display: block;

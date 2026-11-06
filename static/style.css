@@ -229,16 +229,62 @@ a:active {
   height: auto;
 }
 
-/* Split the metadata gallery's usable width 37/63, preserving the shared gap. */
+/* Split the metadata gallery's usable width 40/60, preserving the shared gap. */
 @media screen and (min-width: 769px) {
   .gallery-container--metadata > .gallery-item {
-    flex: 37 1 0;
+    flex: 2 1 0;
     min-width: 0;
   }
 
   .gallery-container--metadata > .gallery-item:last-child {
-    flex-grow: 63;
+    flex-grow: 3;
   }
+}
+
+.gallery-image-trigger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.gallery-image-trigger img {
+  display: block;
+}
+
+.gallery-viewer {
+  width: fit-content;
+  max-width: 96vw;
+  max-height: 96vh;
+  padding: 12px;
+  border: 0;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.gallery-viewer::backdrop {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.gallery-viewer img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: calc(96vw - 24px);
+  max-height: calc(96vh - 80px);
+  object-fit: contain;
+}
+
+.gallery-viewer-close {
+  display: block;
+  margin: 0 0 12px auto;
+  cursor: pointer;
+}
+
+body.gallery-viewer-open {
+  overflow: hidden;
 }
 
 /* Label styling */

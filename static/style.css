@@ -214,7 +214,7 @@ a:active {
   display: flex;
   flex-direction: row; /* Side-by-side on desktop */
   gap: 40px;           /* Space between items */
-  padding: 5px;
+  padding: 5px 0;
 }
 
 /* Individual item unit */

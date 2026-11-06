@@ -8,7 +8,8 @@ if (galleryImages.length) {
     const closeButton = document.createElement('button');
     closeButton.type = 'button';
     closeButton.className = 'gallery-viewer-close';
-    closeButton.textContent = 'Close ×';
+    closeButton.textContent = '×';
+    closeButton.setAttribute('aria-label', 'Close');
 
     const enlargedImage = document.createElement('img');
     viewer.append(closeButton, enlargedImage);

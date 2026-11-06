@@ -33,6 +33,42 @@ body {
    }
 
 
+.intro {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.intro-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.intro-portrait {
+    flex: 0 0 auto;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+@media (max-width: 600px) {
+    .intro {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .intro-text {
+        flex-basis: 100%;
+    }
+
+    .intro-portrait {
+        width: 120px;
+        height: 120px;
+        margin-left: auto;
+    }
+}
+
 h1 {
     margin-top: 1.5em;
     font-family: 'Arsenal';

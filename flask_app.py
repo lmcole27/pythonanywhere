@@ -17,7 +17,7 @@ logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 
 
 #INFO REQUIRED TO LOAD .env in pythonanywhere
-load_dotenv()
+#load_dotenv()
 project_folder = os.path.expanduser('~/mysite')
 load_dotenv(os.path.join(project_folder, '.env'))
 
@@ -36,6 +36,6 @@ app.register_blueprint(dad_jokes_blueprint)
 app.register_blueprint(umbrella_blueprint)
 app.register_blueprint(assistant_blueprint)
 
-# #RUN THE WEBAPP
+#RUN THE WEBAPP
 # if __name__ == "__main__":
 #     app.run(host="0.0.0.0", port=5001, debug=False)

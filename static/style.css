@@ -229,15 +229,15 @@ a:active {
   height: auto;
 }
 
-/* Split the metadata gallery's usable width 40/60, preserving the shared gap. */
+/* Split the metadata gallery's usable width 45/55, preserving the shared gap. */
 @media screen and (min-width: 769px) {
   .gallery-container--metadata > .gallery-item {
-    flex: 2 1 0;
+    flex: 9 1 0;
     min-width: 0;
   }
 
   .gallery-container--metadata > .gallery-item:last-child {
-    flex-grow: 3;
+    flex-grow: 11;
   }
 }
 

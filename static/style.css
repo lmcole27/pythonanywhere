@@ -33,6 +33,42 @@ body {
    }
 
 
+.intro {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.intro-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.intro-portrait {
+    flex: 0 0 auto;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+@media (max-width: 600px) {
+    .intro {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .intro-text {
+        flex-basis: 100%;
+    }
+
+    .intro-portrait {
+        width: 120px;
+        height: 120px;
+        margin-left: auto;
+    }
+}
+
 h1 {
     margin-top: 1.5em;
     font-family: 'Arsenal';
@@ -214,7 +250,7 @@ a:active {
   display: flex;
   flex-direction: row; /* Side-by-side on desktop */
   gap: 40px;           /* Space between items */
-  padding: 5px;
+  padding: 5px 0;
 }
 
 /* Individual item unit */
@@ -227,6 +263,73 @@ a:active {
 .gallery-item img {
   width: 100%;         /* Responsive image width */
   height: auto;
+}
+
+/* Split the metadata gallery's usable width 40/60, preserving the shared gap. */
+@media screen and (min-width: 769px) {
+  .gallery-container--metadata > .gallery-item {
+    flex: 2 1 0;
+    min-width: 0;
+  }
+
+  .gallery-container--metadata > .gallery-item:last-child {
+    flex-grow: 3;
+  }
+}
+
+.gallery-image-trigger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.gallery-image-trigger img {
+  display: block;
+}
+
+.gallery-viewer {
+  width: fit-content;
+  max-width: 96vw;
+  max-height: 96vh;
+  padding: 12px;
+  border: 0;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.gallery-viewer::backdrop {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.gallery-viewer img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: calc(96vw - 24px);
+  max-height: calc(96vh - 80px);
+  object-fit: contain;
+}
+
+.gallery-viewer-close {
+  display: block;
+  margin: 0 0 12px auto;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: #000;
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+body.gallery-viewer-open {
+  overflow: hidden;
 }
 
 /* Label styling */

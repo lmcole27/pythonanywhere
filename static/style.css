@@ -45,10 +45,13 @@ body {
 }
 
 .intro-portrait {
+    display: block;
     flex: 0 0 auto;
+    margin-left: auto;
     width: 180px;
     height: 180px;
     border-radius: 50%;
+    clip-path: circle(50%);
     object-fit: cover;
 }
 
@@ -286,18 +289,52 @@ a:active {
   cursor: zoom-in;
 }
 
+.gallery-container--iot .gallery-image-trigger,
+.gallery-container--iot img {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.gallery-container--iot .gallery-image-trigger {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.gallery-container--iot .gallery-image-trigger:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.gallery-container--iot .gallery-image-trigger:focus-visible {
+  outline: 2px solid #008080;
+  outline-offset: 4px;
+}
+
 .gallery-image-trigger img {
   display: block;
 }
 
+.gallery-container--metadata .gallery-image-trigger {
+  border: 1px solid #000;
+}
+
 .gallery-viewer {
-  width: fit-content;
-  max-width: 96vw;
-  max-height: 96vh;
+  width: calc(100vw - 32px);
+  height: calc(100vh - 32px);
+  height: calc(100dvh - 32px);
+  max-width: none;
+  max-height: none;
   padding: 12px;
   border: 0;
   border-radius: 8px;
   box-sizing: border-box;
+  overflow: hidden;
+}
+
+.gallery-viewer[open] {
+  display: grid;
+  grid-template-rows: 36px minmax(0, 1fr);
+  gap: 12px;
 }
 
 .gallery-viewer::backdrop {
@@ -306,23 +343,23 @@ a:active {
 
 .gallery-viewer img {
   display: block;
-  width: auto;
-  height: auto;
-  max-width: calc(96vw - 24px);
-  max-height: calc(96vh - 80px);
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
   object-fit: contain;
 }
 
 .gallery-viewer-close {
   display: block;
-  margin: 0 0 12px auto;
+  margin: 0 0 0 auto;
   width: 36px;
   height: 36px;
   padding: 0;
   border: 0;
   border-radius: 4px;
-  background: #000;
-  color: #fff;
+  background: #fff;
+  color: #000;
   font-size: 28px;
   line-height: 1;
   cursor: pointer;
